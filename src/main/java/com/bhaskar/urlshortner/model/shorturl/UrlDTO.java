@@ -1,4 +1,4 @@
-package com.bhaskar.urlshortner.model;
+package com.bhaskar.urlshortner.model.shorturl;
 
 import lombok.Builder;
 import lombok.Data;
