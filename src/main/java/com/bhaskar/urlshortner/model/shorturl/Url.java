@@ -1,4 +1,4 @@
-package com.bhaskar.urlshortner.model;
+package com.bhaskar.urlshortner.model.shorturl;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
