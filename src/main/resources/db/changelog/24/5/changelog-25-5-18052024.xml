@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!--Added the entity Car-->
+    <changeSet id="18052024-1" author="bhaskar">
+        <createTable tableName="car">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="make" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="brand" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="price" type="double">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="18052024-2" author="bhaskar">
+        <insert tableName="car">
+            <column name="make" value="mobile" />
+            <column name="brand" value="samsung" />
+            <column name="price" value="1234" />
+        </insert>
+        <insert tableName="car">
+            <column name="make" value="mobile" />
+            <column name="brand" value="iphone" />
+            <column name="price" value="20000" />
+        </insert>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>
