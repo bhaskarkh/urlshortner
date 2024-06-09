@@ -7,6 +7,7 @@ public interface ShortUrlService {
     ResponseEntity<?> generateShortUrl(UrlDTO urlDTO);
 
     ResponseEntity<?> getOriginalUrlFromShortUrl(String shortUrl);
-    void openShortUrl(String shortUrl);
+    void openLongUrl(String userId,String productId);
+    ResponseEntity<?> openShortUrl(String shortUrl);
 
 }

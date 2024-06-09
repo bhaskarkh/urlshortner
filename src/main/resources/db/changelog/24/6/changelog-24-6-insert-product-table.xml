@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insertProductData" author="bhaskar">
+        <!-- Insert rows into the product table -->
+        <insert tableName="product">
+            <column name="name" value="Product 1" />
+            <column name="price" value="10.00" />
+            <column name="category" value="CLOTHS" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 2" />
+            <column name="price" value="20.00" />
+            <column name="category" value="FURNITURE" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 3" />
+            <column name="price" value="30.00" />
+            <column name="category" value="MOBILE" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 4" />
+            <column name="price" value="40.00" />
+            <column name="category" value="LAPTOP" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 5" />
+            <column name="price" value="50.00" />
+            <column name="category" value="SHOE" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 6" />
+            <column name="price" value="60.00" />
+            <column name="category" value="ACCESSORIES" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 7" />
+            <column name="price" value="70.00" />
+            <column name="category" value="CLOTHS" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 8" />
+            <column name="price" value="80.00" />
+            <column name="category" value="FURNITURE" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 9" />
+            <column name="price" value="90.00" />
+            <column name="category" value="MOBILE" />
+        </insert>
+        <insert tableName="product">
+            <column name="name" value="Product 10" />
+            <column name="price" value="100.00" />
+            <column name="category" value="LAPTOP" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

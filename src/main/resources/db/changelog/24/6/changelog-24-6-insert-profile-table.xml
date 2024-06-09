@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insertProfileData" author="bhaskar">
+        <!-- Insert rows into the profile table -->
+        <insert tableName="profile">
+            <column name="name" value="John Doe" />
+            <column name="point" value="100.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Jane Smith" />
+            <column name="point" value="200.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Alice Johnson" />
+            <column name="point" value="300.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Bob Brown" />
+            <column name="point" value="400.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Charlie Davis" />
+            <column name="point" value="500.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Daniel Evans" />
+            <column name="point" value="600.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Eve Foster" />
+            <column name="point" value="700.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Frank Green" />
+            <column name="point" value="800.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Grace Harris" />
+            <column name="point" value="900.00" />
+        </insert>
+        <insert tableName="profile">
+            <column name="name" value="Henry Irvine" />
+            <column name="point" value="1000.00" />
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

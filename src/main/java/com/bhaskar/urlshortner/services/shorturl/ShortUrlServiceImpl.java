@@ -1,10 +1,13 @@
 package com.bhaskar.urlshortner.services.shorturl;
 
+import com.bhaskar.urlshortner.exception.shorturl.DuplicateOriginalUrlException;
 import com.bhaskar.urlshortner.exception.shorturl.InvalidLongUrlException;
 import com.bhaskar.urlshortner.exception.shorturl.InvalidShortUrlException;
+import com.bhaskar.urlshortner.exception.shorturl.ShortUrlExpiredException;
 import com.bhaskar.urlshortner.model.shorturl.UrlResponseDTO;
 import com.bhaskar.urlshortner.model.shorturl.Url;
 import com.bhaskar.urlshortner.model.shorturl.UrlDTO;
+import com.bhaskar.urlshortner.model.user.Profile;
 import com.bhaskar.urlshortner.repository.shorturl.ShortUrlRepository;
 import com.bhaskar.urlshortner.services.product.ProductServicesImpl;
 import com.bhaskar.urlshortner.services.user.UserServiceImpl;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class ShortUrlServiceImpl implements ShortUrlService {
@@ -38,6 +42,10 @@ public class ShortUrlServiceImpl implements ShortUrlService {
                     .shortUrl(createShortUrl(urlDTO.getUrl()))
                     .expirationDate(getExpirationDate(urlDTO))
                     .build();
+            Url dbUrl = shortUrlRepository.findByOriginalUrl(url.getOriginalUrl());
+            if (dbUrl != null && dbUrl.getExpirationDate().isAfter(LocalDateTime.now())) {
+                throw new DuplicateOriginalUrlException();
+            }
             Url savedUrl = shortUrlRepository.save(url);
             if (savedUrl != null) {
                 UrlResponseDTO urlResponseDTO = UrlResponseDTO.builder()
@@ -67,12 +75,20 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
 
     @Override
-    public void   openShortUrl(String shortUrl) {
-        Url url = getUrlDetailsFromShortUrl(shortUrl);
-        Long userId = extractUserIdFromUrl(url);
-        Long productId = extractProductIdFromUrl(url);
-        BigDecimal price = productServices.getProductPriceByProductId(productId);
-        userService.increaseUserPoint(userId, price);
+    public void openLongUrl(String userId, String productId) {
+        Optional<BigDecimal> amount = productServices.getProductPriceByProductId(Long.parseLong(productId));
+        amount.map(price -> userService.increaseUserPoint(Long.parseLong(userId), price));
+    }
+
+    @Override
+    public ResponseEntity<?> openShortUrl(String shortUrl) {
+        Url longUrl = getUrlDetailsFromShortUrl(shortUrl);
+        validateLongUrl(longUrl);
+        Long userId = extractUserIdFromUrl(longUrl);
+        Long productId = extractProductIdFromUrl(longUrl);
+        Optional<BigDecimal> amount = productServices.getProductPriceByProductId(productId);
+        Optional<Profile> profile = amount.map(price -> userService.increaseUserPoint(userId, price));
+        return profile.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElse(new ResponseEntity<>(Profile.builder().build(), HttpStatus.NO_CONTENT));
     }
 
 
@@ -87,26 +103,27 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     }
 
     public Long extractUserIdFromUrl(Url url) {
-        //http://localhost:8080/share/{userId}/{productId}
-        if (validLongUrl(url)) {
-            String userID = url.getOriginalUrl().split("/")[4];
-            return Long.parseLong(userID);
-        }
-        throw new InvalidLongUrlException();
+        //http://localhost:8080/shortUrl/share/{userId}/{productId}
+        String userID = url.getOriginalUrl().split("/")[5];
+        return Long.parseLong(userID);
     }
 
     public Long extractProductIdFromUrl(Url url) {
-        //http://localhost:8080/share/{userId}/{productId}
-        if (validLongUrl(url)) {
-            String productId = url.getOriginalUrl().split("/")[5];
-            return Long.parseLong(productId);
-        }
-        throw new InvalidLongUrlException();
+        //http://localhost:8080/shortUrl/share/{userId}/{productId}
+        String productId = url.getOriginalUrl().split("/")[6];
+        return Long.parseLong(productId);
     }
 
-    public Boolean validLongUrl(Url url) {
-        //http://localhost:8080/share/{userId}/{productId}
-        return url != null && StringUtils.isNotEmpty(url.getOriginalUrl()) && url.getOriginalUrl().split("/").length ==  6? true : false;
+    public Boolean validateLongUrl(Url url) {
+        //http://localhost:8080/shortUrl/share/{userId}/{productId}
+        if (url != null) {
+            if (url.getExpirationDate().isBefore(LocalDateTime.now()))
+                throw new ShortUrlExpiredException(url.getExpirationDate().toString());
+            if (StringUtils.isNotEmpty(url.getOriginalUrl()) && url.getOriginalUrl().split("/").length == 7) {
+                return true;
+            }
+        }
+        throw new InvalidLongUrlException();
     }
 
     private String createShortUrl(String url) {

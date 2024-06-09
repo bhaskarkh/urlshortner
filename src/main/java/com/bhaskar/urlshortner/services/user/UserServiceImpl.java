@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserServices {
     }
 
     @Override
-    public BigDecimal increaseUserPoint(Long userId, BigDecimal productPrice) {
+    public Profile increaseUserPoint(Long userId, BigDecimal productPrice) {
         BigDecimal newPoint = getNewPointAfterAddition(getUserPoint(userId), productPrice);
         Profile profile = userRepository.findById(userId).orElse(null);
         profile.setPoint(newPoint);
         if (profile != null) {
             Profile savedProfile = userRepository.save(profile);
-            if (savedProfile != null && savedProfile.getPoint() != null) return savedProfile.getPoint();
+            if (savedProfile != null && savedProfile.getPoint() != null) return savedProfile;
         }
         throw new UserNotFoundException();
     }

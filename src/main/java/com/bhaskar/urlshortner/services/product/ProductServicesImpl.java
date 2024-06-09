@@ -3,8 +3,6 @@ package com.bhaskar.urlshortner.services.product;
 import com.bhaskar.urlshortner.exception.product.ProductNotFoundException;
 import com.bhaskar.urlshortner.exception.product.ProductSaveFailedException;
 import com.bhaskar.urlshortner.model.common.Category;
-import com.bhaskar.urlshortner.model.common.ResponseDTO;
-import com.bhaskar.urlshortner.model.shorturl.UrlResponseDTO;
 import com.bhaskar.urlshortner.model.product.Product;
 import com.bhaskar.urlshortner.repository.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +55,8 @@ public class ProductServicesImpl implements ProductServices {
     }
 
     @Override
-    public BigDecimal getProductPriceByProductId(Long productId) {
-        return getProductById(productId).map(product -> product.getPrice()).orElse(null);
+    public Optional<BigDecimal> getProductPriceByProductId(Long productId) {
+        return getProductById(productId).map(product -> product.getPrice());
     }
 
     @Override

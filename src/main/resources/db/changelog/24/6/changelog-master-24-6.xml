@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="db/changelog/24/5/changelog-master-24-5.xml"/>
-    <include file="db/changelog/24/6/changelog-master-24-6.xml"/>
+    <include file="db/changelog/24/6/changelog-24-6-09062024.xml"/>
+    <include file="db/changelog/24/6/changelog-24-6-insert-profile-table.xml"/>
+    <include file="db/changelog/24/6/changelog-24-6-insert-product-table.xml"/>
 </databaseChangeLog>
