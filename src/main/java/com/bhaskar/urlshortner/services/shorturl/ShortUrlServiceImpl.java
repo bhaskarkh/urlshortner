@@ -34,7 +34,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     ProductServicesImpl productServices;
 
     @Override
-    public ResponseEntity<?> generateShortUrl(UrlDTO urlDTO) {
+    public ResponseEntity<UrlResponseDTO> generateShortUrl(UrlDTO urlDTO) {
         if (urlDTO != null && urlDTO.getUrl() != null) {
             Url url = Url.builder()
                     .originalUrl(urlDTO.getUrl())
@@ -60,7 +60,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     }
 
     @Override
-    public ResponseEntity<?> getOriginalUrlFromShortUrl(String shortUrl) {
+    public ResponseEntity<UrlResponseDTO> getOriginalUrlFromShortUrl(String shortUrl) {
         Url url = getUrlDetailsFromShortUrl(shortUrl);
         if (url != null) {
             UrlResponseDTO urlResponseDTO = UrlResponseDTO.builder()
@@ -104,13 +104,13 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
     public Long extractUserIdFromUrl(Url url) {
         //http://localhost:8080/shortUrl/share/{userId}/{productId}
-        String userID = url.getOriginalUrl().split("/")[5];
+        String userID = url.getOriginalUrl().split("/")[4];
         return Long.parseLong(userID);
     }
 
     public Long extractProductIdFromUrl(Url url) {
         //http://localhost:8080/shortUrl/share/{userId}/{productId}
-        String productId = url.getOriginalUrl().split("/")[6];
+        String productId = url.getOriginalUrl().split("/")[5];
         return Long.parseLong(productId);
     }
 

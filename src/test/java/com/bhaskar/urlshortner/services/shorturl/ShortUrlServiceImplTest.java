@@ -42,7 +42,6 @@ class ShortUrlServiceImplTest {
         assertEquals(true, shortUrlService.validateLongUrl(url));
     }
 
-    @Test
     @ParameterizedTest
     @MethodSource("parameterForExtractUserIdFromUrl")
     void extractUserIdFromUrl(String inputUrl,Long expectedValue) {
