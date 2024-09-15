@@ -14,7 +14,7 @@ public interface ProductServices {
     ResponseEntity<?> removeProduct(Long productId);
     Optional<Product> getProductById(Long productId);
     BigDecimal getProductPrice(Product product);
-    BigDecimal getProductPriceByProductId(Long productId);
+    Optional<BigDecimal> getProductPriceByProductId(Long productId);
     Category getProductCategory(Product product);
     String  getProductName(Product product);
 }

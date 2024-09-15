@@ -1,8 +1,10 @@
 package com.bhaskar.urlshortner.exception.common;
 
 import com.bhaskar.urlshortner.exception.product.ProductNotFoundException;
+import com.bhaskar.urlshortner.exception.shorturl.DuplicateOriginalUrlException;
 import com.bhaskar.urlshortner.exception.shorturl.InvalidLongUrlException;
 import com.bhaskar.urlshortner.exception.shorturl.InvalidShortUrlException;
+import com.bhaskar.urlshortner.exception.shorturl.ShortUrlExpiredException;
 import com.bhaskar.urlshortner.exception.user.UserNotFoundException;
 import com.bhaskar.urlshortner.model.common.ErrorCodeEnum;
 import com.bhaskar.urlshortner.model.common.ResponseDTO;
@@ -32,6 +34,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDTO> handleInvalidShortUrlException(InvalidShortUrlException ex)
     {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(getErrorResponse(ErrorCodeEnum.INVALID_SHORT_URL_ERROR_CODE));
+    }
+    @ExceptionHandler(ShortUrlExpiredException.class)
+    public ResponseEntity<ResponseDTO> handleShortUrlExpiredException(ShortUrlExpiredException ex)
+    {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(getErrorResponseWithMessage(ex, ErrorCodeEnum.SHORT_URL_EXPIRED_ERROR_CODE));
+    }
+    @ExceptionHandler(DuplicateOriginalUrlException.class)
+    public ResponseEntity<ResponseDTO> handleDuplicateOriginalException(DuplicateOriginalUrlException ex)
+    {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(getErrorResponseWithMessage(ex, ErrorCodeEnum.DUPLICATE_ORIGINAL_ERROR_CODE));
+    }
+
+    private ResponseDTO getErrorResponseWithMessage(Exception ex, ErrorCodeEnum errorCodeEnum) {
+        return ResponseDTO.builder().message(ex.getMessage()).errorCode(errorCodeEnum.value()).build();
     }
 
     private ResponseDTO getErrorResponse(ErrorCodeEnum errorCode) {

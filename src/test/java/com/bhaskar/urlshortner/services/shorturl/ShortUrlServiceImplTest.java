@@ -36,9 +36,10 @@ class ShortUrlServiceImplTest {
     @Test
     void validLongUrl() {
         Url url = Url.builder()
-                .originalUrl("http://localhost:8080/share/1/3")
+                .originalUrl("http://localhost:8080/shortUrl/share/1/3")
+                .expirationDate(LocalDateTime.now().plusMinutes(3))
                 .build();
-        assertEquals(true, shortUrlService.validLongUrl(url));
+        assertEquals(true, shortUrlService.validateLongUrl(url));
     }
 
     @Test

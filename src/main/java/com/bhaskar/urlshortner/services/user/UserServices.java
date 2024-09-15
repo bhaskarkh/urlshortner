@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserServices {
     Optional<Profile> getUserByUserId(Long userId);
     BigDecimal getUserPoint(Long userId);
-    BigDecimal increaseUserPoint(Long userId, BigDecimal productPrice);
+    Profile increaseUserPoint(Long userId, BigDecimal productPrice);
     ResponseEntity<?> addUser(Profile profile);
     ResponseEntity<?> addUserList(List<Profile> profile);
     ResponseEntity<?> removeUser(Long userId);

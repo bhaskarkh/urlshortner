@@ -9,6 +9,9 @@ public enum ErrorCodeEnum {
     //shortUrl related error code range between 1000-1999
     INVALID_LONG_URL_ERROR_CODE("1000", "Invalid Long Url format correct format is http://localhost:8080/share/{userId}/{productId}"),
     INVALID_SHORT_URL_ERROR_CODE("1001", "Invalid Short Url"),
+
+    SHORT_URL_EXPIRED_ERROR_CODE("1002", "Short Url Expired"),
+    DUPLICATE_ORIGINAL_ERROR_CODE("1003", "This Url is already present kindly use that"),
     //user related   error code range between 2000-2999
     USER_NOT_FOUND_ERROR_CODE("2000", "Invalid UserId, User not found kindly check long url"),
     FAILED_TO_SAVE_USER_ERROR_CODE("2001", "Failed to save User"),
